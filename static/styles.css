@@ -1,0 +1,116 @@
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-outline {
+    border: 1px solid #e5e7eb;
+}
+
+.btn-outline:hover {
+    background-color: #f3f4f6;
+}
+
+.audio-player {
+    width: 200px;
+    margin: 0.5rem 0;
+}
+
+.method-cell {
+    padding: 1rem;
+    vertical-align: middle;
+    min-width: 250px;
+    width: 250px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.method-cell.filename-cell {
+    min-width: 100px;
+    width: 100px;
+}
+
+.method-header {
+    padding: 1rem;
+    font-weight: 500;
+    min-width: 250px;
+    width: 250px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #f9fafb;
+    border-bottom: 2px solid #d1d5db;
+}
+
+.method-header.filename-header {
+    min-width: 100px;
+    width: 100px;
+    text-align: left;
+}
+
+.data-row {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.data-row:hover {
+    background-color: #f9fafb;
+}
+
+.table-container {
+    overflow: auto;
+    max-height: calc(100vh - 200px);
+}
+
+.comparison-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.spectrogram-img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.2s;
+}
+
+.audio-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.spectrogram-container {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.playback-cursor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 2px;
+    background-color: #3b82f6;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0.8;
+    box-shadow: 0 0 4px rgba(59, 130, 246, 0.5);
+}
+
+.spectrogram-container:hover .playback-cursor {
+    background-color: #2563eb;
+    opacity: 1;
+} 

@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Enhancement Summary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="static/styles.css">
+    <style>
+        /* Additional styles to ensure cursor visibility */
+        .playback-cursor {
+            position: absolute !important;
+            top: 0 !important;
+            height: 100% !important;
+            width: 2px !important;
+            background-color: #3b82f6 !important;
+            z-index: 100 !important;
+        }
+        /* Ensure row separators are visible */
+        .data-row {
+            border-bottom: 1px solid #e5e7eb !important;
+        }
+        .method-header {
+            border-bottom: 2px solid #d1d5db !important;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-center">Audio Enhancement Summary</h1>
+        </div>
+
+        <!-- Method Filters -->
+        <div class="flex flex-wrap gap-2 mb-8" id="method-filters">
+            
+            <button
+                id="btn-dtln"
+                class="btn btn-outline"
+                onclick="toggleMethod('dtln')"
+                data-tooltip="Model: DTLN_norm_500h.h5 (Default)"
+            >
+                Dtln
+            </button>
+        
+            <button
+                id="btn-rnnoise"
+                class="btn btn-outline"
+                onclick="toggleMethod('rnnoise')"
+                data-tooltip="Model: Default"
+            >
+                Rnnoise
+            </button>
+        
+            <button
+                id="btn-supervoice_flow"
+                class="btn btn-outline"
+                onclick="toggleMethod('supervoice_flow')"
+                data-tooltip="Config: Default (torch.hub, steps=8)"
+            >
+                SuperVoice
+            </button>
+        
+            <button
+                id="btn-voice_fixer_mode_0"
+                class="btn btn-outline"
+                onclick="toggleMethod('voice_fixer_mode_0')"
+                data-tooltip="Mode: 0 (Original)"
+            >
+                Voice Fixer Mode 0
+            </button>
+        
+            <button
+                id="btn-voice_fixer_mode_1"
+                class="btn btn-outline"
+                onclick="toggleMethod('voice_fixer_mode_1')"
+                data-tooltip="Mode: 1 (With Preprocessing)"
+            >
+                Voice Fixer Mode 1
+            </button>
+        
+        </div>
+
+        <!-- Main Content -->
+        <div class="table-container">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th class="method-header filename-header text-left" data-method="original">Original File</th>
+                        <th class="method-header" data-method="original">Original (Prepared)</th>
+                        
+            <th class="method-header" data-method="dtln" data-tooltip="Model: DTLN_norm_500h.h5 (Default)">
+                Dtln
+                <div class="text-xs text-gray-600 mt-1">Model: DTLN_norm_500h.h5 (Default)</div>
+            </th>
+        
+            <th class="method-header" data-method="rnnoise" data-tooltip="Model: Default">
+                Rnnoise
+                <div class="text-xs text-gray-600 mt-1">Model: Default</div>
+            </th>
+        
+            <th class="method-header" data-method="supervoice_flow" data-tooltip="Config: Default (torch.hub, steps=8)">
+                SuperVoice
+                <div class="text-xs text-gray-600 mt-1">Config: Default (torch.hub, steps=8)</div>
+            </th>
+        
+            <th class="method-header" data-method="voice_fixer_mode_0" data-tooltip="Mode: 0 (Original)">
+                Voice Fixer Mode 0
+                <div class="text-xs text-gray-600 mt-1">Mode: 0 (Original)</div>
+            </th>
+        
+            <th class="method-header" data-method="voice_fixer_mode_1" data-tooltip="Mode: 1 (With Preprocessing)">
+                Voice Fixer Mode 1
+                <div class="text-xs text-gray-600 mt-1">Mode: 1 (With Preprocessing)</div>
+            </th>
+        
+                    </tr>
+                </thead>
+                <tbody>
+                    
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">audio_long</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/audio_long_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/audio_long_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/audio_long_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/audio_long_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/audio_long_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/audio_long_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/audio_long_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/audio_long_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/audio_long_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/audio_long_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/audio_long_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/audio_long_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">audio_mid</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/audio_mid_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/audio_mid_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/audio_mid_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/audio_mid_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/audio_mid_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/audio_mid_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/audio_mid_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/audio_mid_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/audio_mid_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/audio_mid_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/audio_mid_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/audio_mid_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">audio_tv_mid</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/audio_tv_mid_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/audio_tv_mid_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/audio_tv_mid_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/audio_tv_mid_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/audio_tv_mid_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/audio_tv_mid_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/audio_tv_mid_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/audio_tv_mid_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/audio_tv_mid_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/audio_tv_mid_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/audio_tv_mid_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/audio_tv_mid_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">room_bad</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/room_bad_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/room_bad_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/room_bad_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/room_bad_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/room_bad_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/room_bad_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/room_bad_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/room_bad_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/room_bad_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/room_bad_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/room_bad_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/room_bad_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">room_good</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/room_good_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/room_good_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/room_good_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/room_good_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/room_good_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/room_good_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/room_good_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/room_good_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/room_good_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/room_good_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/room_good_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/room_good_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">room_mid</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/room_mid_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/room_mid_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/room_mid_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/room_mid_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/room_mid_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/room_mid_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/room_mid_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/room_mid_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/room_mid_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/room_mid_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/room_mid_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/room_mid_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp01_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp01_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp01_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp01_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp01_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp01_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp01_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp01_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp01_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp01_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp01_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp01_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp01_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp02_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp02_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp02_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp02_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp02_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp02_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp02_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp02_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp02_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp02_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp02_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp02_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp02_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp03_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp03_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp03_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp03_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp03_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp03_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp03_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp03_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp03_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp03_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp03_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp03_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp03_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp04_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp04_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp04_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp04_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp04_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp04_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp04_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp04_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp04_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp04_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp04_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp04_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp04_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp05_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp05_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp05_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp05_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp05_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp05_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp05_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp05_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp05_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp05_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp05_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp05_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp05_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp06_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp06_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp06_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp06_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp06_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp06_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp06_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp06_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp06_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp06_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp06_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp06_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp06_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp07_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp07_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp07_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp07_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp07_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp07_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp07_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp07_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp07_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp07_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp07_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp07_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp07_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp08_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp08_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp08_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp08_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp08_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp08_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp08_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp08_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp08_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp08_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp08_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp08_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp08_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp09_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp09_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp09_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp09_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp09_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp09_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp09_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp09_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp09_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp09_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp09_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp09_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp09_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp10_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp10_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp10_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp10_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp10_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp10_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp10_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp10_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp10_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp10_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp10_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp10_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp10_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp11_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp11_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp11_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp11_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp11_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp11_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp11_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp11_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp11_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp11_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp11_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp11_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp11_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp12_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp12_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp12_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp12_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp12_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp12_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp12_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp12_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp12_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp12_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp12_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp12_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp12_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp13_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp13_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp13_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp13_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp13_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp13_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp13_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp13_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp13_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp13_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp13_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp13_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp13_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp14_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp14_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp14_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp14_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp14_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp14_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp14_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp14_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp14_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp14_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp14_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp14_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp14_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp15_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp15_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp15_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp15_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp15_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp15_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp15_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp15_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp15_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp15_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp15_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp15_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp15_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp16_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp16_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp16_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp16_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp16_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp16_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp16_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp16_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp16_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp16_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp16_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp16_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp16_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp17_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp17_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp17_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp17_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp17_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp17_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp17_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp17_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp17_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp17_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp17_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp17_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp17_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp18_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp18_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp18_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp18_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp18_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp18_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp18_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp18_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp18_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp18_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp18_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp18_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp18_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp19_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp19_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp19_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp19_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp19_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp19_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp19_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp19_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp19_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp19_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp19_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp19_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp19_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp20_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp20_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp20_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp20_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp20_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp20_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp20_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp20_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp20_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp20_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp20_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp20_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp20_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp21_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp21_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp21_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp21_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp21_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp21_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp21_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp21_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp21_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp21_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp21_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp21_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp21_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp22_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp22_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp22_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp22_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp22_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp22_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp22_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp22_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp22_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp22_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp22_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp22_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp22_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp23_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp23_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp23_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp23_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp23_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp23_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp23_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp23_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp23_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp23_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp23_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp23_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp23_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp24_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp24_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp24_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp24_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp24_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp24_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp24_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp24_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp24_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp24_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp24_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp24_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp24_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp25_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp25_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp25_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp25_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp25_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp25_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp25_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp25_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp25_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp25_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp25_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp25_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp25_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp26_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp26_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp26_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp26_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp26_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp26_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp26_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp26_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp26_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp26_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp26_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp26_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp26_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp27_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp27_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp27_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp27_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp27_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp27_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp27_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp27_car_sn15_44k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp27_car_sn15_44k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp27_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp27_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp27_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp27_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp28_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp28_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp28_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp28_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp28_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp28_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp28_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp28_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp28_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp28_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp28_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp28_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp28_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp29_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp29_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp29_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp29_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp29_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp29_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp29_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp29_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp29_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp29_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp29_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp29_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp29_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+
+<tr class="data-row">
+    <td class="method-cell filename-cell" data-method="original">
+        <div class="font-medium">sp30_car_sn15</div>
+    </td>
+    <td class="method-cell" data-method="original">
+        <div class="audio-container">
+            <audio controls class="audio-player" src="assets/prepared/sp30_car_sn15_44k.wav"></audio>
+            <div class="spectrogram-container">
+                <div class="playback-cursor"></div>
+                <img 
+                    src="spectrograms/prepared/sp30_car_sn15_44k_spectrogram.png" 
+                    alt="Spectrogram" 
+                    class="spectrogram-img mt-2 w-full rounded-lg shadow-sm"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </td>
+    
+<td class="method-cell" data-method="dtln">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/dtln/output/sp30_car_sn15_dtln_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/dtln/sp30_car_sn15_dtln_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="rnnoise">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/rnnoise/output/sp30_car_sn15_rnnoise_model_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/rnnoise/sp30_car_sn15_rnnoise_model_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="supervoice_flow">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/supervoice_flow/output/sp30_car_sn15_16k_supervoiceenhance.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/supervoice_flow/sp30_car_sn15_16k_supervoiceenhance_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_0">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_0/output/sp30_car_sn15_vf_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_0/sp30_car_sn15_vf_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+<td class="method-cell" data-method="voice_fixer_mode_1">
+    <div class="audio-container"><audio controls class="audio-player" src="methods/voice_fixer_mode_1/output/sp30_car_sn15_vf_mode1_enhanced.wav"></audio><div class="spectrogram-container"><div class="playback-cursor"></div><img src="spectrograms/voice_fixer_mode_1/sp30_car_sn15_vf_mode1_enhanced_spectrogram.png" alt="Spectrogram" class="spectrogram-img mt-2 w-full rounded-lg shadow-sm" loading="lazy" /></div></div>
+</td>
+
+</tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="static/summary.js"></script>
+</body>
+</html> 

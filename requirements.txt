@@ -1,0 +1,4 @@
+# Dependencies for top-level scripts (e.g., preparation.py, summary.py)
+librosa
+soundfile
+jinja2 

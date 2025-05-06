@@ -1,0 +1,4 @@
+- A sample app that will enhance audio on a selected video from the gallery.
+- The original video can be played.
+- The enhanced video can be played.
+- The goal is to make speech more recognizable on the processed video.

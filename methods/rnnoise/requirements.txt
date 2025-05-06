@@ -1,0 +1,6 @@
+# CFFI for interacting with the C library
+cffi>=1.15.0
+
+# Audio handling and numerical processing
+soundfile
+numpy 

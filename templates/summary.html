@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Enhancement Summary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="static/styles.css">
+    <style>
+        /* Additional styles to ensure cursor visibility */
+        .playback-cursor {
+            position: absolute !important;
+            top: 0 !important;
+            height: 100% !important;
+            width: 2px !important;
+            background-color: #3b82f6 !important;
+            z-index: 100 !important;
+        }
+        /* Ensure row separators are visible */
+        .data-row {
+            border-bottom: 1px solid #e5e7eb !important;
+        }
+        .method-header {
+            border-bottom: 2px solid #d1d5db !important;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-center">Audio Enhancement Summary</h1>
+        </div>
+
+        <!-- Method Filters -->
+        <div class="flex flex-wrap gap-2 mb-8" id="method-filters">
+            {{ method_filters | safe }}
+        </div>
+
+        <!-- Main Content -->
+        <div class="table-container">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th class="method-header filename-header text-left" data-method="original">Original File</th>
+                        <th class="method-header" data-method="original">Original (Prepared)</th>
+                        {{ method_headers | safe }}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ table_rows | safe }}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="static/summary.js"></script>
+</body>
+</html> 

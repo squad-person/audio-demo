@@ -1,0 +1,8 @@
+# PyTorch (CPU version - install appropriate version from pytorch.org if GPU is needed)
+torch
+torchvision
+torchaudio
+
+# VoiceFixer and audio handling
+voicefixer==0.1.3
+soundfile 

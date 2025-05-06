@@ -1,0 +1,17 @@
+# TODO: List Python dependencies for Supervoice Flow
+torch
+torchaudio
+einops
+accelerate
+tqdm
+soundfile
+torchdiffeq
+# textgrid # Might be needed depending on inference implementation
+# wandb # Likely optional for inference
+
+# Dependencies based on supervoice-flow train.py and supervoice-enhance README.
+# The supervoice-enhance model uses torch.hub, which might automatically download
+# required code from ex3ndr/supervoice-enhance and potentially ex3ndr/supervoice-flow.
+# Cloning supervoice-flow to lib/ might be redundant, but keeping for reference.
+
+# Need to check Supervoice Enhance repo for additional dependencies 

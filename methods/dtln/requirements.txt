@@ -1,0 +1,13 @@
+# TensorFlow (check DTLN repo for recommended version)
+# tensorflow==2.8 # This specific version can cause installation issues on some systems.
+# Install the latest compatible version using: pip install tensorflow
+tensorflow
+
+# Audio handling and numerical processing
+soundfile
+librosa
+numpy
+wavinfo
+
+# Note: The DTLN library itself (cloned into lib/DTLN) might have additional dependencies.
+# Check lib/DTLN/requirements.txt if issues arise. 
